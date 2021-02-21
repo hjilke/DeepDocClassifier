@@ -10,9 +10,9 @@ This Repository reimplements the methods in the paper.
 # Getting Started
  
 ## Installation
-   pip install -r requirements.txt
+      pip install -r requirements.txt
  
-Please use the [getting started](files/DeepDocClassifier-Getting-Started.ipynb) notebook to run
+Please use the [getting started](DeepDocClassifier-Getting-Started.ipynb) notebook to run
 the experiments
  
 # DataSet
