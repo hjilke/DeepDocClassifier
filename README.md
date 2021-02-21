@@ -13,7 +13,7 @@ This Repository reimplements the methods in the paper.
       pip install -r requirements.txt
  
 Please use the [getting started](DeepDocClassifier-Getting-Started.ipynb) notebook to run
-the experiments
+the experiments and please use python 3.6
  
 # DataSet
  
@@ -30,6 +30,6 @@ Examples:
  
 The DeepDocClassifier is based on a pretrained *AlexNet*, that was initially trained on imagenet (1000 classes). To adapt the network for Tobacco3482 dataset we have to change the last layer of the *AlexNet* and replace it with a fully connected layer that has only 10 hidden units.
  
-My reimplementation of the model ([DeepDocClassifier](files/model.py)) swaps the last layer of the *AlexNet* and replaces it with a fully connected layer that has only 10 hidden units.
+My reimplementation of the model ([DeepDocClassifier](model.py)) swaps the last layer of the *AlexNet* and replaces it with a fully connected layer that has only 10 hidden units.
 
 
