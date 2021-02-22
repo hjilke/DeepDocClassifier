@@ -46,9 +46,10 @@ transforms = transforms.Compose([
 ]) 
 
 
-def train_on_partitions(path_to_partitions, transforms, max_epochs, path_to_models):
+def train_on_partitions(path_to_partitions, max_epochs, path_to_models):
     
     partitions = [partition for partition in os.listdir(path_to_partitions) if partition.startswith("data")]
+    print("#######################################################")
     print("Start training on {} partitions".format(len(partitions)))
     
     for run_id, partition_id in enumerate(partitions):
@@ -56,18 +57,16 @@ def train_on_partitions(path_to_partitions, transforms, max_epochs, path_to_mode
         print("PartitionID #{} ".format(partition_id))
         
         partition_path = os.path.join(path_to_partitions, partition_id)
-        train_data, test_data = torch.load(partition_path)
+        train_data, _ = torch.load(partition_path)
         time_stamp = os.path.join(path_to_models, "model-partitionID-{}".format(partition_id))
 
         train_sampler, val_sampler = train_validation_split(len(train_data), train_frac=0.8)
         train_loader = torch.utils.data.DataLoader(train_data, batch_size=10, sampler=train_sampler)
         val_loader = torch.utils.data.DataLoader(train_data, batch_size=10, sampler=val_sampler)
-        test_loader = torch.utils.data.DataLoader(test_data, batch_size=10, shuffle=True)
 
         print("Size of train-set {}".format(len(train_loader) * 10))
         print("Size of val-set {}".format(len(val_loader) * 10))
-        print("Size of test-set {}".format(len(test_loader) * 10))
-
+        
         model = DeepDocClassifier(alexnet, 10)
         
         if os.path.exists(time_stamp):
@@ -76,14 +75,14 @@ def train_on_partitions(path_to_partitions, transforms, max_epochs, path_to_mode
         
         train(model, train_loader, val_loader, epochs=max_epochs, lr=0.0001, momentum=0.9, decay=0.0005, 
             print_every=30, path_to_file=time_stamp)
-        print("")
+        print("#######################################################\n")
 
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--build_partitions', default=False, type=bool)
-    parser.add_argument('--train_models', default=False, type=bool)
+    parser.add_argument('--build_partitions', action='store_true', default=None)
+    parser.add_argument('--train_models', action='store_true', default=None)
     parser.add_argument('--data_path', default=None, type=str)
 
     args = parser.parse_args()
@@ -99,11 +98,14 @@ if __name__ == "__main__":
     labels = file_reader.read_class_labels()
     data_dict = file_reader.get_image_paths(labels)
 
-    if args.build_partitions is True:
+    if args.build_partitions:
         create_set_of_partitions(data_dict, [20, 40, 60, 80, 100], path_to_partitions)
+        partitions = [partition for partition in os.listdir(path_to_partitions) if partition.startswith("data")]
+        for partition in partitions:
+            print("Created Partition {}".format(partition))
+    
 
-    if args.train_models is True:
-        train_on_partitions(path_to_partitions=path_to_partitions, transforms=transforms, 
-                        max_epochs=15, path_to_models=path_to_models)
+    if args.train_models:
+        train_on_partitions(path_to_partitions=path_to_partitions, max_epochs=15, path_to_models=path_to_models)
 
 

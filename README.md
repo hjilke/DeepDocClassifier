@@ -28,8 +28,14 @@ Examples:
  
 # Model
  
-The DeepDocClassifier is based on a pretrained *AlexNet*, that was initially trained on imagenet (1000 classes). To adapt the network for Tobacco3482 dataset we have to change the last layer of the *AlexNet* and replace it with a fully connected layer that has only 10 hidden units.
+The *DeepDocClassifier* is based on a pretrained *AlexNet*, that was initially trained on imagenet (1000 classes). To adapt the network for Tobacco3482 dataset we have to change the last layer of the *AlexNet* and replace it with a fully connected layer that has only 10 hidden units.
  
 My reimplementation of the model ([DeepDocClassifier](model.py)) swaps the last layer of the *AlexNet* and replaces it with a fully connected layer that has only 10 hidden units.
+
+# Train Models
+
+Similar to the experiments in the publication the following command will create random partitions and will train one *DeepDocClassifier* model for each partition.
+
+      python train.py --build_partitions --train_models
 
 
