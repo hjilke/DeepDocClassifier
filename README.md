@@ -38,4 +38,6 @@ Similar to the experiments in the publication the following command will create 
 
       python train.py --build_partitions --train_models
 
+This will create pytorch model artifacts (default stored to /models) that can be loaded using [*load_state_dict*](https://pytorch.org/tutorials/beginner/saving_loading_models.html)
 
+The created partitions can be reused too! Check out the [getting started](DeepDocClassifier-Getting-Started.ipynb) notebook to get the code for this.

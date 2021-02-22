@@ -107,5 +107,7 @@ if __name__ == "__main__":
 
     if args.train_models:
         train_on_partitions(path_to_partitions=path_to_partitions, max_epochs=15, path_to_models=path_to_models)
-
+        partitions = [partition for partition in os.listdir(path_to_partitions) if partition.startswith("model")]
+        for partition in partitions:
+            print("Created Models {}".format(partition))
 
